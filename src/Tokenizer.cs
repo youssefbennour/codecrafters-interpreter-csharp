@@ -5,26 +5,29 @@ namespace Sharlox;
 internal static class Tokenizer
 {
     public static List<Token> Tokenize(string fileContents)
-    { 
-        var rawTokens = fileContents.Split(" ")
-            .ToList();
-        
-        List<Token> tokens = [];
-        for(var index = 0; index < rawTokens.Count; index++)
+    {
+        if (string.IsNullOrEmpty(fileContents))
         {
-            var rawToken = rawTokens[index].Trim();
+            return [new Token(TokenType.EOF, string.Empty, null)];
+        }
+        
+        Queue<string?> tokensQueue = new(fileContents.Split(" "));
+        List<Token> tokens = [];
+        while(tokensQueue.TryDequeue(out string? rawToken))
+        {
+            rawToken = rawToken?.Trim();
             
             Stack<char> tokenStack = new Stack<char>();
             
-            while (rawToken[^1].IsSharloxToken() && rawToken.Length > 1)
+            while (rawToken != null && rawToken[^1].IsSharloxToken() && rawToken.Length > 1)
             {
                 tokenStack.Push(rawToken[^1]);
                 rawToken = rawToken[..^1];
             }
 
-            while(tokenStack.TryPop(out char t))
+            while(tokenStack.TryPop(out var t))
             {
-                rawTokens.Add(t.ToString());     
+                tokensQueue.Enqueue(t.ToString());     
             }
             
             var token = TokenizeSingle(rawToken);
@@ -39,9 +42,9 @@ internal static class Tokenizer
         return tokens;
     }
 
-    private static Token? TokenizeSingle(string rawToken)
+    private static Token? TokenizeSingle(string? rawToken)
     {
-        if (rawToken.Length == 0 || string.IsNullOrWhiteSpace(rawToken))
+        if (string.IsNullOrWhiteSpace(rawToken) || rawToken.Length == 0)
         {
             return null;
         }
