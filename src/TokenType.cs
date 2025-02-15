@@ -1,4 +1,4 @@
-namespace Sharlox;
+namespace codecrafters;
 
 public enum TokenType
 {

@@ -1,4 +1,4 @@
-namespace Sharlox;
+namespace codecrafters;
 
 internal sealed class Token(TokenType tokenType, string lexeme, string? literal)
 {

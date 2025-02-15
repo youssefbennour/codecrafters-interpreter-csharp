@@ -15,15 +15,14 @@ if (command != "tokenize")
     Environment.Exit(1);
 }
 
-string? fileContents = File.ReadAllText(filename);
+string fileContents = File.ReadAllText(filename);
 
 Console.Error.WriteLine("Logs from your program will appear here!");
 
-if (!string.IsNullOrEmpty(fileContents))
+var tokens = Tokenizer.Tokenize(fileContents);
+foreach (var token in tokens)
 {
-    throw new NotImplementedException("Scanner not implemented");
+    Console.WriteLine($"{token.Type.ToString()} {token.Lexeme} {token.Literal ?? "null"}");
 }
-else
-{
-    Console.WriteLine("EOF  null"); // Placeholder, remove this line when implementing the scanner
-}
+
+

@@ -1,3 +1,5 @@
+using codecrafters;
+
 namespace Sharlox;
 
 internal static class Tokenizer
@@ -31,6 +33,11 @@ internal static class Tokenizer
 
     private static Token? TokenizeSingle(string rawToken)
     {
+        if (rawToken.Length == 0)
+        {
+            return null;
+        }
+        
         switch (rawToken)
         {
             case "var":
