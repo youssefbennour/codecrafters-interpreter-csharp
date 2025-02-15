@@ -8,5 +8,7 @@ public enum TokenType
     
     IDENTIFIER,NUMBER, STRING,
     
+    LEFT_PAREN, RIGHT_PAREN, 
+    
     EOF
 }

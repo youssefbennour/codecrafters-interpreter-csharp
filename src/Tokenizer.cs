@@ -13,7 +13,8 @@ internal static class Tokenizer
         for(var index = 0; index < rawTokens.Count; index++)
         {
             var rawToken = rawTokens[index];
-            if (rawToken.EndsWith(';'))
+            
+            while (rawToken[^1].IsSharloxToken() && rawToken.Length > 1)
             {
                 rawTokens.Add(";");
                 rawToken = rawToken[..^1];
@@ -46,6 +47,10 @@ internal static class Tokenizer
                 return new Token(TokenType.EQUAL, rawToken, null);
             case ";":
                 return new Token(TokenType.SEMICOLON, rawToken, null);
+            case "(":
+                return new Token(TokenType.LEFT_PAREN, rawToken, null);
+            case ")":
+                return new Token(TokenType.RIGHT_PAREN, rawToken, null);
         }
 
         if (rawToken.AsSpan().Count('\"') == 2)
