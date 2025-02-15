@@ -12,11 +12,11 @@ internal static class Tokenizer
         List<Token> tokens = [];
         for(var index = 0; index < rawTokens.Count; index++)
         {
-            var rawToken = rawTokens[index];
+            var rawToken = rawTokens[index].Trim();
             
             while (rawToken[^1].IsSharloxToken() && rawToken.Length > 1)
             {
-                rawTokens.Add(";");
+                rawTokens.Add(rawToken[^1].ToString());
                 rawToken = rawToken[..^1];
             }
             
@@ -34,7 +34,7 @@ internal static class Tokenizer
 
     private static Token? TokenizeSingle(string rawToken)
     {
-        if (rawToken.Length == 0)
+        if (rawToken.Length == 0 || string.IsNullOrWhiteSpace(rawToken))
         {
             return null;
         }

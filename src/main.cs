@@ -22,7 +22,7 @@ Console.Error.WriteLine("Logs from your program will appear here!");
 var tokens = Tokenizer.Tokenize(fileContents);
 foreach (var token in tokens)
 {
-    Console.WriteLine($"{token.Type.ToString()} {token.Lexeme} {token.Literal ?? "null"}");
+    Console.WriteLine($"{token.Type} {token.Lexeme} {token.Literal ?? "null"}");
 }
 
 
