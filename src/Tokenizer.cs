@@ -14,10 +14,17 @@ internal static class Tokenizer
         {
             var rawToken = rawTokens[index].Trim();
             
+            Stack<char> tokenStack = new Stack<char>();
+            
             while (rawToken[^1].IsSharloxToken() && rawToken.Length > 1)
             {
-                rawTokens.Add(rawToken[^1].ToString());
+                tokenStack.Push(rawToken[^1]);
                 rawToken = rawToken[..^1];
+            }
+
+            while(tokenStack.TryPop(out char t))
+            {
+                rawTokens.Add(t.ToString());     
             }
             
             var token = TokenizeSingle(rawToken);
