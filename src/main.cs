@@ -19,10 +19,8 @@ string fileContents = File.ReadAllText(filename);
 
 Console.Error.WriteLine("Logs from your program will appear here!");
 
-var tokens = Tokenizer.Tokenize(fileContents);
-foreach (var token in tokens)
-{
-    Console.WriteLine($"{token.Type} {token.Lexeme} {token.Literal ?? "null"}");
-}
+var tokenizer = new Tokenizer(fileContents);
+tokenizer.Tokenize();
+tokenizer.DisplayTokens();
 
 

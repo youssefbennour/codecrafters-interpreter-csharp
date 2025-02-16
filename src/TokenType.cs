@@ -3,8 +3,10 @@ namespace codecrafters;
 public enum TokenType
 {
     VAR,
-    EQUAL,
-    SEMICOLON,
+    
+    DOT, SEMICOLON, COMMA,
+    
+    EQUAL,STAR, PLUS, MINUS, 
     
     IDENTIFIER,NUMBER, STRING,
     
