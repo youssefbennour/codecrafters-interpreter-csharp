@@ -32,6 +32,7 @@ internal class Tokenizer
         if (string.IsNullOrWhiteSpace(Input))
         {
             this.tokens.Add(new Token(TokenType.EOF, string.Empty, null));
+            return;
         }
 
         int currentIndex = 0;
