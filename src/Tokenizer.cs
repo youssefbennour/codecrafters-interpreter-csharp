@@ -61,6 +61,10 @@ internal static class Tokenizer
                 return new Token(TokenType.LEFT_PAREN, rawToken, null);
             case ")":
                 return new Token(TokenType.RIGHT_PAREN, rawToken, null);
+            case "{":
+                return new Token(TokenType.LEFT_BRACE, rawToken, null);
+            case "}":
+                return new Token(TokenType.RIGHT_BRACE, rawToken, null);
         }
 
         if (rawToken.AsSpan().Count('\"') == 2)
