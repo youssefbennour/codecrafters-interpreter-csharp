@@ -11,6 +11,7 @@ internal class Tokenizer
     
     public string Input { get; private init; }
     private List<Token> tokens = [];
+    public bool HasFailed { get; private set; }
     public IReadOnlyCollection<Token> Tokens => tokens;
 
     public void DisplayTokens()
@@ -23,7 +24,7 @@ internal class Tokenizer
         foreach (var token in tokens)
         {
             Console.WriteLine(token.ToString());
-        }    
+        }
     }
     
     public void Tokenize()
@@ -117,36 +118,15 @@ internal class Tokenizer
 
                     tokens.Add(new Token(TokenType.STRING, $"\"{token}\"", token));
                     continue;
+                default:
+                    HasFailed = true;
+                    Console.WriteLine($"[line 1] Error: Unexpected character: {rawToken}");
+                    break;
             }
 
             currentIndex++;
         }
         
         tokens.Add(new Token(TokenType.EOF, string.Empty, null));
-    }
-
-    private static Token? TokenizeSingle(string? rawToken)
-    {
-        if (string.IsNullOrWhiteSpace(rawToken) || rawToken.Length == 0)
-        {
-            return null;
-        }
-        
-        
-
-        if (rawToken.AsSpan().Count('\"') == 2)
-        {
-            return new Token(TokenType.STRING, rawToken, rawToken.Trim('\"'));
-        }
-        if (rawToken.All(char.IsDigit))
-        {
-            return new Token(TokenType.NUMBER, rawToken, rawToken);
-        }
-        if (!char.IsDigit(rawToken.First()) && !rawToken.Any(char.IsSymbol))
-        {
-            return new Token(TokenType.IDENTIFIER, rawToken, null);     
-        }
-
-        return null;
     }
 }

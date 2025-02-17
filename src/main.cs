@@ -23,4 +23,13 @@ var tokenizer = new Tokenizer(fileContents);
 tokenizer.Tokenize();
 tokenizer.DisplayTokens();
 
+if (tokenizer.HasFailed)
+{
+    Environment.Exit(65);
+}
+else
+{
+    Environment.Exit(0);
+}
+
 
