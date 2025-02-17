@@ -91,7 +91,7 @@ internal class Tokenizer
                     if (currentIndex+1 < Input.Length && Input[currentIndex + 1] == '=')
                     {
                         currentIndex++;
-                        tokens.Add(new Token(TokenType.BANG_EQUAL, $"{rawToken}{rawToken}", null));
+                        tokens.Add(new Token(TokenType.BANG_EQUAL, $"{rawToken}=", null));
                     }
                     else
                     {
