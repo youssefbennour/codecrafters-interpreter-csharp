@@ -1,3 +1,4 @@
+using System.Runtime.InteropServices.JavaScript;
 using codecrafters;
 
 namespace Sharlox;
@@ -120,7 +121,7 @@ internal class Tokenizer
                     continue;
                 default:
                     HasFailed = true;
-                    Console.WriteLine($"[line 1] Error: Unexpected character: {rawToken}");
+                    Console.Error.WriteLine($"[line 1] Error: Unexpected character: {rawToken}");
                     break;
             }
 
