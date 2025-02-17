@@ -77,7 +77,7 @@ internal class Tokenizer
             switch (rawToken)
             {
                 case '=':
-                    if ((currentIndex+1) < Input.Length && Input[currentIndex + 1] == '=')
+                    if (currentIndex+1 < Input.Length && Input[currentIndex + 1] == '=')
                     {
                         currentIndex++;
                         tokens.Add(new Token(TokenType.EQUAL_EQUAL, $"{rawToken}{rawToken}", null));
@@ -87,6 +87,18 @@ internal class Tokenizer
                         tokens.Add(new Token(TokenType.EQUAL, rawToken, null));
                     }
                     break;
+                case '!':
+                    if (currentIndex+1 < Input.Length && Input[currentIndex + 1] == '=')
+                    {
+                        currentIndex++;
+                        tokens.Add(new Token(TokenType.BANG_EQUAL, $"{rawToken}{rawToken}", null));
+                    }
+                    else
+                    {
+                        tokens.Add(new Token(TokenType.BANG, rawToken, null));
+                    }
+                    break;
+                    
                 case '+':
                     tokens.Add(new Token(TokenType.PLUS, rawToken, null));
                     break;

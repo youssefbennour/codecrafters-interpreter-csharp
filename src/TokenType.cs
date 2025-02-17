@@ -6,7 +6,7 @@ public enum TokenType
     
     DOT, SEMICOLON, COMMA,
     
-    EQUAL, EQUAL_EQUAL,STAR, PLUS, MINUS, 
+    EQUAL, EQUAL_EQUAL, BANG, BANG_EQUAL, STAR, PLUS, MINUS, 
     
     IDENTIFIER,NUMBER, STRING,
     
