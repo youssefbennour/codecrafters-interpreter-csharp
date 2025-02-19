@@ -1,4 +1,5 @@
 using System.Runtime.InteropServices.JavaScript;
+using System.Security;
 using codecrafters;
 
 namespace Sharlox;
@@ -48,6 +49,12 @@ internal class Tokenizer
             {
                 currentIndex++;
                 continue;
+            }
+
+            if (rawToken == '/' && currentIndex + 1 < Input.Length && Input[currentIndex + 1] == '/')
+            {
+                currentIndex = Input.Length - 1;
+                break;
             }
             
             if (char.IsDigit(rawToken))
@@ -126,6 +133,9 @@ internal class Tokenizer
                 
                     break;
                     
+                case '/':
+                    tokens.Add(new Token(TokenType.SLASH, rawToken, null));
+                    break;
                 case '+':
                     tokens.Add(new Token(TokenType.PLUS, rawToken, null));
                     break;
