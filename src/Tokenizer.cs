@@ -49,6 +49,7 @@ internal class Tokenizer
             if (rawToken == '\n')
             {
                 currentLine++;
+                currentIndex++;
                 continue;
             }
                 
