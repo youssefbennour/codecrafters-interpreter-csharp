@@ -13,6 +13,9 @@ internal class Tokenizer
     public string Input { get; private init; }
     private List<Token> tokens = [];
     public bool HasFailed { get; private set; }
+
+    private int currentIndex = 0;
+    
     public IReadOnlyCollection<Token> Tokens => tokens;
 
     public void DisplayTokens()
@@ -37,7 +40,7 @@ internal class Tokenizer
             return;
         }
 
-        int currentIndex = 0;
+        currentIndex = 0;
         while (currentIndex < Input.Length)
         {
             var rawToken = Input[currentIndex];
@@ -97,6 +100,30 @@ internal class Tokenizer
                     {
                         tokens.Add(new Token(TokenType.BANG, rawToken, null));
                     }
+                    break;
+                case '>':
+                    if (currentIndex+1 < Input.Length && Input[currentIndex + 1] == '=')
+                    {
+                        currentIndex++;
+                        tokens.Add(new Token(TokenType.GREATER_EQUAL, $"{rawToken}=", null));
+                    }
+                    else
+                    {
+                        tokens.Add(new Token(TokenType.GREATER, rawToken, null));
+                    }
+
+                    break;
+                case '<':
+                    if (currentIndex+1 < Input.Length && Input[currentIndex + 1] == '=')
+                    {
+                        currentIndex++;
+                        tokens.Add(new Token(TokenType.LESS_EQUAL, $"{rawToken}=", null));
+                    }
+                    else
+                    {
+                        tokens.Add(new Token(TokenType.LESS, rawToken, null));
+                    }
+                
                     break;
                     
                 case '+':
