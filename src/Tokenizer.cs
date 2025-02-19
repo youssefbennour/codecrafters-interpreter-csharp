@@ -16,6 +16,7 @@ internal class Tokenizer
     public bool HasFailed { get; private set; }
 
     private int currentIndex = 0;
+    private int currentLine = 1;
     
     public IReadOnlyCollection<Token> Tokens => tokens;
 
@@ -45,6 +46,12 @@ internal class Tokenizer
         while (currentIndex < Input.Length)
         {
             var rawToken = Input[currentIndex];
+            if (rawToken == '\n')
+            {
+                currentLine++;
+                continue;
+            }
+                
             if (char.IsWhiteSpace(Input[currentIndex]))
             {
                 currentIndex++;
@@ -176,9 +183,10 @@ internal class Tokenizer
 
                     tokens.Add(new Token(TokenType.STRING, $"\"{token}\"", token));
                     continue;
+                
                 default:
                     HasFailed = true;
-                    Console.Error.WriteLine($"[line 1] Error: Unexpected character: {rawToken}");
+                    Console.Error.WriteLine($"[line {currentLine}] Error: Unexpected character: {rawToken}");
                     break;
             }
 
