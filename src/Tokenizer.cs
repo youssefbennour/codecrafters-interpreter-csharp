@@ -61,8 +61,14 @@ internal class Tokenizer
 
             if (rawToken == '/' && currentIndex + 1 < Input.Length && Input[currentIndex + 1] == '/')
             {
-                currentIndex = Input.Length - 1;
-                break;
+                currentIndex = Input.IndexOf('\n', currentIndex + 1);
+                if (currentIndex < 0)
+                {
+                    currentIndex = Input.Length;
+                    break;
+                }
+
+                continue;
             }
             
             if (char.IsDigit(rawToken))
