@@ -126,8 +126,8 @@ internal class Tokenizer
                     {
                         tokens.Add(new Token(TokenType.GREATER, rawToken, null));
                     }
-
                     break;
+                
                 case '<':
                     if (currentIndex+1 < Input.Length && Input[currentIndex + 1] == '=')
                     {
@@ -138,7 +138,6 @@ internal class Tokenizer
                     {
                         tokens.Add(new Token(TokenType.LESS, rawToken, null));
                     }
-                
                     break;
                     
                 case '/':
