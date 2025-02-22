@@ -181,18 +181,27 @@ internal class Tokenizer
                     break;
                 case '\"':
                     var token = string.Empty;
-                    while (Input[currentIndex] != '\"' && currentIndex < Input.Length)
+                    currentIndex++;
+                    while (currentIndex < Input.Length && Input[currentIndex] != '\"')
                     {
                         token += Input[currentIndex];
                         currentIndex++;
                     }
 
-                    tokens.Add(new Token(TokenType.STRING, $"\"{token}\"", token));
+
+                    if (currentIndex >= Input.Length)
+                    {
+                        PrintError($"[line {currentLine}] Error: Unterminated string.");
+                    } else
+                    {
+                        tokens.Add(new Token(TokenType.STRING, $"\"{token}\"", token));
+                        currentIndex++;
+                    }
+                    
                     continue;
                 
                 default:
-                    HasFailed = true;
-                    Console.Error.WriteLine($"[line {currentLine}] Error: Unexpected character: {rawToken}");
+                    PrintError($"[line {currentLine}] Error: Unexpected character: {rawToken}");
                     break;
             }
 
@@ -200,5 +209,11 @@ internal class Tokenizer
         }
         
         tokens.Add(new Token(TokenType.EOF, string.Empty, null));
+    }
+
+    private void PrintError(string errorMessage)
+    {
+        Console.Error.WriteLine(errorMessage);
+        HasFailed = true;
     }
 }
