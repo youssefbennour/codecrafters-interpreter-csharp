@@ -117,7 +117,7 @@ internal class Tokenizer
                 continue;
             }
 
-            if (char.IsLetter(rawToken))
+            if (char.IsLetter(rawToken) || rawToken == '_')
             {
                 var token = string.Empty;
                 while (currentIndex < Input.Length &&
@@ -130,6 +130,8 @@ internal class Tokenizer
                 tokens.Add(token == "var"
                     ? new Token(TokenType.VAR, "var", null)
                     : new Token(TokenType.IDENTIFIER, token, null));
+                
+                continue;
             }
             
             switch (rawToken)
