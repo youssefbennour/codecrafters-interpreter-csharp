@@ -70,6 +70,40 @@ internal class Tokenizer
 
                 continue;
             }
+
+            if (char.IsDigit(rawToken))
+            {
+                string token = rawToken.ToString();
+                currentIndex++;
+                int floatingPointsNumber = 0;
+                while (currentIndex < Input.Length && (char.IsDigit(Input[currentIndex]) || Input[currentIndex] == '.'))
+                {
+                    if (Input[currentIndex] == '.')
+                    {
+                        floatingPointsNumber++;
+                    } 
+                    
+                    token += Input[currentIndex];
+                    currentIndex++;
+                }
+
+                string lexeme = token;
+                if (floatingPointsNumber == 0)
+                {
+                    token += ".0";
+                }
+                else
+                {
+                    token = token.TrimEnd('0');
+                    if (token[^1] == '.')
+                    {
+                        token += '0';
+                    }
+                }
+                
+                tokens.Add(new Token(TokenType.NUMBER, lexeme, token));
+                continue;
+            }
             
             if (char.IsDigit(rawToken))
             {
