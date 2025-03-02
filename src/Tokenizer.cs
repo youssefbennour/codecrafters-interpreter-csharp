@@ -105,33 +105,11 @@ internal class Tokenizer
                 continue;
             }
             
-            if (char.IsDigit(rawToken))
-            {
-                var token = string.Empty;
-                while (char.IsDigit(Input[currentIndex]))
-                {
-                    token += Input[currentIndex];
-                    currentIndex++;
-                }
-                tokens.Add(new Token(TokenType.NUMBER, token, token));
-                continue;
-            }
 
-            if (char.IsLetter(rawToken) || rawToken == '_')
+            if (GetReservedToken() is { } reservedToken)
             {
-                var token = string.Empty;
-                while (currentIndex < Input.Length &&
-                       (char.IsLetterOrDigit(Input[currentIndex]) || Input[currentIndex] == '_'))
-                {
-                    token += Input[currentIndex];
-                    currentIndex++;
-                }
-
-                tokens.Add(token == "var"
-                    ? new Token(TokenType.VAR, "var", null)
-                    : new Token(TokenType.IDENTIFIER, token, null));
-                
-                continue;
+               tokens.Add(reservedToken);
+               continue;
             }
             
             switch (rawToken)
@@ -247,6 +225,61 @@ internal class Tokenizer
         tokens.Add(new Token(TokenType.EOF, string.Empty, null));
     }
 
+
+    private Token? GetReservedToken()
+    {
+        var rawToken = Input[currentIndex];
+        if (char.IsLetter(rawToken) || rawToken == '_')
+        {
+            var token = string.Empty;
+            while (currentIndex < Input.Length &&
+                   (char.IsLetterOrDigit(Input[currentIndex]) || Input[currentIndex] == '_'))
+            {
+                token += Input[currentIndex];
+                currentIndex++;
+            }
+
+            switch (token)
+            {
+                case "and":
+                    return new Token(TokenType.AND, token, null);
+                case "else":
+                    return new Token(TokenType.ELSE, token, null);
+                case "false":
+                    return new Token(TokenType.FALSE, token, null);
+                case "for":
+                    return new Token(TokenType.FOR, token, null);
+                case "fun":
+                    return new Token(TokenType.FUN, token, null);
+                case "if":
+                    return new Token(TokenType.IF, token, null);
+                case "nil":
+                    return new Token(TokenType.NIL, token, null);
+                case "or":
+                    return new Token(TokenType.OR, token, null);
+                case "print":
+                    return new Token(TokenType.PRINT, token, null);
+                case "return":
+                    return new Token(TokenType.RETURN, token, null);
+                case "super":
+                    return new Token(TokenType.SUPER, token, null);
+                case "this":
+                    return new Token(TokenType.THIS, token, null);
+                case "true":
+                    return new Token(TokenType.TRUE, token, null);
+                case "var":
+                    return new Token(TokenType.VAR, token, null);
+                case "while":
+                    return new Token(TokenType.WHILE, token, null);
+                case "class":
+                    return new Token(TokenType.CLASS, token, null);
+                default:
+                    return new Token(TokenType.IDENTIFIER, token, null);
+                    break; 
+            }
+        }
+        return null;
+    }
     private void PrintError(string errorMessage)
     {
         Console.Error.WriteLine(errorMessage);
